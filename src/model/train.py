@@ -20,7 +20,12 @@ def main(args):
 
         # split data
         data = split_data(df)
-        X_train, X_test, y_train, y_test = data['train']['X'], data['test']['X'], data['train']['y'], data['test']['y']
+        X_train, X_test, y_train, y_test = (
+            data['train']['X'], 
+            data['test']['X'], 
+            data['train']['y'], 
+            data['test']['y']
+        )
 
         # train model
         train_model(args.reg_rate, X_train, X_test, y_train, y_test)
