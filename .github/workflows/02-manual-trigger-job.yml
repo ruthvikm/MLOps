@@ -19,7 +19,7 @@ jobs:
       - name: Install Azure CLI
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          az extension add -n ml
+          az extension add -n ml -y
 
       - name: Azure login
         uses: azure/login@v1
