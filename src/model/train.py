@@ -1,12 +1,10 @@
 # Import libraries
-
 import argparse
 import glob
 import os
 import mlflow
 import mlflow.sklearn
 import pandas as pd
-
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
@@ -17,13 +15,17 @@ def main(args):
     mlflow.sklearn.autolog()
 
     with mlflow.start_run():
-
         # read data
         df = get_csvs_df(args.training_data)
 
         # split data
         data = split_data(df)
-        X_train, X_test, y_train, y_test = data['train']['X'], data['test']['X'], data['train']['y'], data['test']['y']
+        X_train, X_test, y_train, y_test = (
+            data['train']['X'],
+            data['test']['X'],
+            data['train']['y'],
+            data['test']['y']
+        )
 
         # train model
         train_model(args.reg_rate, X_train, X_test, y_train, y_test)
@@ -70,6 +72,7 @@ def parse_args():
 
     # return args
     return args
+
 
 # run script
 if __name__ == "__main__":
