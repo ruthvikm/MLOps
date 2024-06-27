@@ -3,10 +3,12 @@ import pandas as pd
 from azureml.core.model import Model
 import joblib
 
+
 def init():
     global model
     model_path = Model.get_model_path('diabetes_model')
     model = joblib.load(model_path)
+
 
 def run(data):
     try:
