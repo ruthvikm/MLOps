@@ -27,7 +27,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Register Model
         run: |
-          az ml model register --name diabetes_model --path "outputs/model" --resource-group my-ml-resource-group --workspace-name my-ml-workspace
+          az ml model create --name diabetes_model --path "outputs/model" --resource-group my-ml-resource-group --workspace-name my-ml-workspace
 
   deploy-model:
     runs-on: ubuntu-latest
