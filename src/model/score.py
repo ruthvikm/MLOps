@@ -1,21 +1,19 @@
 import json
-import pandas as pd
-from azureml.core.model import Model
+import numpy as np
 import joblib
-
+from azureml.core.model import Model
 
 def init():
     global model
-    model_path = Model.get_model_path('diabetes_model')
+    model_path = Model.get_model_path('azureml_quirky_card_4wsv0mt3v2_output_mlflow_log_model_1400287630')
     model = joblib.load(model_path)
-
 
 def run(data):
     try:
-        data = json.loads(data)['data']
-        data = pd.DataFrame.from_dict(data)
+        data = json.loads(data)
+        data = np.array(data['data'])
         result = model.predict(data)
-        return json.dumps({"result": result.tolist()})
+        return result.tolist()
     except Exception as e:
         error = str(e)
-        return json.dumps({"error": error})
+        return error
