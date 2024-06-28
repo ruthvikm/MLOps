@@ -1,12 +1,12 @@
-$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+$schema: https://azuremlschemas.azureedge.net/v1/onlineDeployment.json
 name: blue
 endpoint_name: diabetes-endpoint
 model:
-  name: diabetes_model
+  name: azureml_quirky_card_4wsv0mt3v2_output_mlflow_log_model_1400287630
   version: 1
-environment: azureml:<your-environment-name>@latest
+environment: azureml:AzureML-sklearn-0.24-ubuntu18.04-py37-cpu:1
 code_configuration:
-  code: src/model
+  code:
+    local_path: src/model
   scoring_script: score.py
 instance_type: Standard_DS2_v2
-instance_count: 1
