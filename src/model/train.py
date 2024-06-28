@@ -30,6 +30,11 @@ def main(args):
         # train model
         train_model(args.reg_rate, X_train, X_test, y_train, y_test)
 
+         # Save the model
+        if not os.path.exists("outputs"):
+            os.makedirs("outputs")
+        mlflow.sklearn.save_model(model, "outputs/model")
+
 
 def get_csvs_df(path):
     if not os.path.exists(path):
