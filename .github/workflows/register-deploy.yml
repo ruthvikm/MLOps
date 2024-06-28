@@ -52,7 +52,7 @@ jobs:
 
       - name: Register Model
         run: |
-          az ml model create --name azureml_quirky_card_4wsv0mt3v2_output_mlflow_log_model_1400287630 --path "outputs/model" --resource-group my-ml-resource-group --workspace-name my-ml-workspace
+          az ml model create --name diabetes_model --path "artifacts/model" --resource-group my-ml-resource-group --workspace-name my-ml-workspace
 
   deploy-model:
     runs-on: ubuntu-latest
@@ -85,15 +85,21 @@ jobs:
 
       - name: Deploy Model
         run: |
-          az ml online-deployment create --name blue --endpoint diabetes-endpoint --model azureml_quirky_card_4wsv0mt3v2_output_mlflow_log_model_1400287630:1 --file deployment.yml --resource-group my-ml-resource-group --workspace-name my-ml-workspace
+          az ml online-deployment create --name blue --endpoint diabetes-endpoint --model diabetes_model:1 --file deployment.yml --resource-group my-ml-resource-group --workspace-name my-ml-workspace
 
   test-endpoint:
     runs-on: ubuntu-latest
     needs: deploy-model
     steps:
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Test Endpoint
         run: |
-          RESPONSE=$(curl -X POST https://<your-endpoint-url>/score \
+          endpoint_url=$(az ml online-endpoint show --name diabetes-endpoint --query scoring_uri -o tsv)
+          RESPONSE=$(curl -X POST $endpoint_url/score \
           -H 'Content-Type: application/json' \
           -d '{
                 "data": [
