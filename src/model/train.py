@@ -33,7 +33,7 @@ def main(args):
          # Save the model
         if not os.path.exists("outputs"):
             os.makedirs("outputs")
-        mlflow.sklearn.save_model(model, "outputs/model")
+            mlflow.sklearn.save_model(model, "outputs/model")
 
 
 def get_csvs_df(path):
