@@ -11,17 +11,30 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v2
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
+
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          python -m pip install -r requirements.txt
+
+      - name: Check Azure CLI Version
+        run: |
+          az version
+
+      - name: Install Azure CLI ML extension
+        run: |
+          az extension add -n ml -y
+          az extension list
+
       - name: Azure login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Register Model
         run: |
           az ml model register --name diabetes_model --path "outputs/model" --resource-group my-ml-resource-group --workspace-name my-ml-workspace
@@ -32,17 +45,30 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v2
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
+
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          python -m pip install -r requirements.txt
+
+      - name: Check Azure CLI Version
+        run: |
+          az version
+
+      - name: Install Azure CLI ML extension
+        run: |
+          az extension add -n ml -y
+          az extension list
+
       - name: Azure login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Deploy Model
         run: |
           az ml online-endpoint create --name diabetes-endpoint --file endpoint.yml --resource-group my-ml-resource-group --workspace-name my-ml-workspace
